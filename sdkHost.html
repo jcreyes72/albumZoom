@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spotify Web Playback SDK Quick Start</title>
+</head>
+<body>
+    <h1>Spotify Web Playback SDK Quick Start</h1>
+    <button id="togglePlay">Toggle Play</button>
+
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script>
+        window.onSpotifyWebPlaybackSDKReady = () => {
+            const token = 'BQDikl04T6dwcKau58ilrQoEmOsv6uOLCtC7xLzZmzwicKVMO9MU6yxFw4MOE7WXjoyIjH63PdjUrHax9Z4sXBOoCG5R7AxM3RuJJyTdDKgQXSbrjZtAqLVYGz5v_7BxVFIDP9NyMrDvDbvw1FulE79aOOFUQSZisTWB2A7Fr9erYVcENTrLyy1gznH3guIi4fsUmOQXICKKy3TPdmvcKe8';
+            const player = new Spotify.Player({
+                name: 'Web Playback SDK Quick Start Player',
+                getOAuthToken: cb => { cb(token); },
+                volume: 0.5
+            });
+
+            // Ready
+            player.addListener('ready', ({ device_id }) => {
+                console.log('Ready with Device ID', device_id);
+            });
+
+            // Not Ready
+            player.addListener('not_ready', ({ device_id }) => {
+                console.log('Device ID has gone offline', device_id);
+            });
+
+            player.addListener('initialization_error', ({ message }) => {
+                console.error(message);
+            });
+
+            player.addListener('authentication_error', ({ message }) => {
+                console.error(message);
+            });
+
+            player.addListener('account_error', ({ message }) => {
+                console.error(message);
+            });
+
+            document.getElementById('togglePlay').onclick = function() {
+              player.togglePlay();
+            };
+
+            player.connect();
+        }
+
+    </script>
+</body>
+</html>
